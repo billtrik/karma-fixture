@@ -5,6 +5,7 @@ json_data = {
 json_template = JSON.stringify(json_data)
 html_template1 = '<h1 id="tmpl">test</h1>'
 html_template2 = '<h2 id="tmpl">test</h2><p>multiple</p>'
+html_template3 = '<script>window.test_a_test = true</script>'
 fixture_base = 'spec/fixtures'
 
 load_template_as_karma_html2js = (name, string, base = fixture_base)->
@@ -81,6 +82,7 @@ describe 'Fixture', ->
       beforeEach ->
         load_template_as_karma_html2js 'html1', html_template1
         load_template_as_karma_html2js 'html2', html_template2
+        load_template_as_karma_html2js 'html3', html_template3
         load_template_as_karma_html2js 'json.json', json_template
 
       afterEach ->
@@ -123,6 +125,16 @@ describe 'Fixture', ->
         expect(dom_nodes.length)
           .to.equal(@fixture_cont.children.length)
           .to.equal(2)
+
+      context 'when template contains <script> tags', ->
+        beforeEach ->
+          @instance.load 'html3'
+
+        it 'places the script tag intact', ->
+          expect(@fixture_cont.innerHTML).to.equal html_template3
+
+        it 'executes the javascript', ->
+          expect(window.test_a_test).to.equal true
 
       context 'when multiple templates are requested', ->
         beforeEach ->
@@ -203,6 +215,16 @@ describe 'Fixture', ->
         expect(dom_nodes.length)
           .to.equal(@fixture_cont.children.length)
           .to.equal(2)
+
+      context 'when template contains <script> tags', ->
+        beforeEach ->
+          @result = @instance.set html_template3
+
+        it 'places the script tag intact', ->
+          expect(@fixture_cont.innerHTML).to.equal html_template3
+
+        it 'executes the javascript', ->
+          expect(window.test_a_test).to.equal true
 
       context 'when multiple templates are requested', ->
         beforeEach ->

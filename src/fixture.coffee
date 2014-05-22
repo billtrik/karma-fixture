@@ -55,6 +55,7 @@ class Fixture
       else
         @el.appendChild(i)
         results.push i
+        eval i.innerText if i.nodeName is 'SCRIPT'
     return results
 
 if typeof exports is "object"
