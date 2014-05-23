@@ -16,9 +16,11 @@ class Fixture
       filenames.push(append)
       append = false
 
+    @cleanup() if append is false
+
     # return created fixtures in an array
     results = []
-    for filename, index in filenames
+    for filename in filenames
       string = __html__?["#{@base}/#{filename}"] or ''
 
       if filename.indexOf('.json') isnt -1
@@ -28,7 +30,7 @@ class Fixture
           results.push json
         catch err
       else
-        results.push @_add_fixture(string, append or index > 0)
+        results.push @_add_fixture string
 
     results = results[0] if results.length is 1
     return results
@@ -37,15 +39,16 @@ class Fixture
     unless typeof(append) is 'boolean'
       strings.push(append)
       append = false
-    @_add_fixture(string, append or index > 0) for string, index in strings
+
+    @cleanup() if append is false
+
+    @_add_fixture string for string in strings
 
   cleanup: ->
     @json = []
     @el.innerHTML = ''
 
-  _add_fixture: (html_string, append = false) ->
-    @cleanup() if append is false
-
+  _add_fixture: (html_string) ->
     temp_div = document.createElement('div')
     temp_div.innerHTML = html_string
 
