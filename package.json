@@ -1,8 +1,10 @@
 {
   "name": "karma-fixture",
-  "description": "Fixtures for Karma",
+  "description": "A plugin for the Karma test runner that loads .html and .json fixtures",
   "keywords": [
-    "Karma",
+    "karma",
+    "karma-plugin",
+    "fixtures",
     "fixture"
   ],
   "version": "0.2.1",
