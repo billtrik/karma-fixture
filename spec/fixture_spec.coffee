@@ -114,13 +114,13 @@ describe 'Fixture', ->
         expect(@fixture_cont.children.length).to.equal 1
 
       it 'returns an array with a list of newly created dom nodes per template', ->
-        dom_nodes = @instance.load('html1')[0]
+        dom_nodes = @instance.load('html1')
 
         expect(dom_nodes[0])
           .to.equal @fixture_cont.firstChild
 
       it 'returns references to all firstChildren nodes created by the template', ->
-        dom_nodes = @instance.load('html2')[0]
+        dom_nodes = @instance.load('html2')
 
         expect(dom_nodes.length)
           .to.equal(@fixture_cont.children.length)
@@ -153,7 +153,7 @@ describe 'Fixture', ->
       context 'when it loads json template', ->
         it 'returns the json object', ->
           result = @instance.load 'json.json'
-          expect(result[0]).to.include json_data
+          expect(result).to.include json_data
 
         it 'loads the json template into fixture.json', ->
           @instance.load 'json.json'

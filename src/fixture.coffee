@@ -30,6 +30,7 @@ class Fixture
       else
         results.push @_add_fixture(string, append or index > 0)
 
+    results = results[0] if results.length is 1
     return results
 
   set: (strings..., append = false)->
