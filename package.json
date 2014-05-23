@@ -5,7 +5,7 @@
     "Karma",
     "fixture"
   ],
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Bill Trikalinos <billtrik@gmail.com>",
   "homepage": "https://github.com/billtrik/karma-fixture",
   "license": "MIT",
