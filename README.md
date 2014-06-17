@@ -1,4 +1,4 @@
-karma-fixture [![Build Status](https://travis-ci.org/billtrik/karma-fixture.svg?branch=master)](https://travis-ci.org/billtrik/karma-fixture)
+karma-fixture [![Build Status](https://travis-ci.org/billtrik/karma-fixture.svg?branch=master)](https://travis-ci.org/billtrik/karma-fixture) [![NPM version](https://badge.fury.io/js/karma-fixture.svg)](http://badge.fury.io/js/karma-fixture)
 =============
 
 A plugin for the Karma test runner that loads `.html` and `.json` fixtures.
