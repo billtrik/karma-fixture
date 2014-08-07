@@ -24,6 +24,20 @@ module.exports = function(config){
     // ...
 ```
 
+Then, add `karma-fixture` to the `plugins` array in your Karma configuration:
+
+```javascript
+module.exports = function(config){
+  config.set({
+    // ...
+    plugins: [
+      'karma-fixture'
+      // ...
+    ],
+
+    // ...
+```
+
 You also have to register any/all fixtures in your Karma configuration:
 
 (defaults to `spec/fixtures`)
