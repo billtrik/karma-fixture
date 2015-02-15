@@ -203,14 +203,21 @@ describe 'Fixture', ->
         @instance.set html_template1
         expect(@fixture_cont.children.length).to.equal 1
 
-      it 'returns an array with a list of newly created dom nodes per template', ->
-        dom_nodes = @instance.set(html_template1)[0]
+      it 'appends and returns an array with a list of newly created dom nodes per template', ->
+        dom_nodes = @instance.set(html_template2)
 
-        expect(dom_nodes[0])
-          .to.equal @fixture_cont.firstChild
+        expect(dom_nodes[0]).to.equal @fixture_cont.firstChild
+        expect(dom_nodes[1]).to.equal @fixture_cont.firstChild.nextSibling
+
+      it 'appends and returns an array of arrays of newly created dom nodes for multiple templates', ->
+        dom_nodes = @instance.set(html_template1, html_template2)
+
+        expect(dom_nodes[0][0]).to.equal @fixture_cont.firstChild
+        expect(dom_nodes[1][0]).to.equal @fixture_cont.firstChild.nextSibling
+        expect(dom_nodes[1][1]).to.equal @fixture_cont.firstChild.nextSibling.nextSibling
 
       it 'returns references to all firstChildren nodes created by the template', ->
-        dom_nodes = @instance.set(html_template2)[0]
+        dom_nodes = @instance.set(html_template2)
 
         expect(dom_nodes.length)
           .to.equal(@fixture_cont.children.length)

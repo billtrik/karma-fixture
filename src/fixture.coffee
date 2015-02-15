@@ -42,7 +42,12 @@ class Fixture
 
     @cleanup() if append is false
 
-    @_add_fixture string for string in strings
+    results = []
+    for string in strings
+      results.push @_appendFixture string
+
+    results = results[0] if results.length is 1
+    return results
 
   cleanup: ->
     @json = []
