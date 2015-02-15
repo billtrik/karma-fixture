@@ -24,20 +24,6 @@ module.exports = function(config){
     // ...
 ```
 
-Then, add `karma-fixture` to the `plugins` array in your Karma configuration:
-
-```javascript
-module.exports = function(config){
-  config.set({
-    // ...
-    plugins: [
-      'karma-fixture'
-      // ...
-    ],
-
-    // ...
-```
-
 You also have to register any/all fixtures in your Karma configuration:
 
 (defaults to `spec/fixtures`)
@@ -76,6 +62,21 @@ module.exports = function(config){
     // ...
 ```
 
+*(optional)* If the plugin won't get loaded by karma, you might have to declare it inside the `plugins` array in your Karma configuration
+*(and maybe load `karma-html2js-preprocessor` as well)*:
+
+```javascript
+module.exports = function(config){
+  config.set({
+    // ...
+    plugins: [
+      'karma-fixture'
+      'karma-html2js-preprocessor'
+      // ...
+    ],
+
+    // ...
+```
 
 Implementation details
 -----
