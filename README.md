@@ -49,7 +49,7 @@ Finally you have to add the html2js karma preprocessor:
 $ npm install karma-html2js-preprocessor --save-dev
 ```
 
-and then configure it Karma configuration to process all html and JSON files:
+and then configure Karma to load all html and JSON fixture files:
 
 ```javascript
 module.exports = function(config){
@@ -66,9 +66,10 @@ module.exports = function(config){
 Implementation details
 -----
 
-All fixtures files are pre-loaded as strings as-well, and placed inside the Karma-created `window.__html__` array.
+All fixture files are pre-loaded as strings and placed inside the Karma-created `window.__html__` array.
 
-The fixture plugin is exposed in the `window.fixture` object on every test run. It loads fixture files from that array and appends the created html inside the `window.fixture.el` element that gets created on start-up.
+The fixture plugin is exposed in the `window.fixture` object on every test run.
+It loads fixture files from that array and appends the created html inside the `window.fixture.el` element that gets created on start-up.
 
 
 Usage
@@ -90,7 +91,7 @@ Lets say you have the following fixture files:
     "{"test":true}"
     ```
 
-So you can use `fixture` inside your tests.
+You can use `fixture` inside your tests to handle the fixtures:
 
 
 ```javascript
@@ -116,20 +117,22 @@ API
 
 * `fixture.el`
 
-  Reference to the container element. Inside this container element, all html fixture files get appended, after creation.
+  Reference to the container element. Every html fixture loaded gets appended inside this container.
 
 * `fixture.json`
 
-  An array of all json objects created from fixture templates.
+  An array of all json objects imported from fixture templates.
 
 
 * `fixture.load(files..., append = false)`
 
-  It takes multiple filenames as arguments and load them.
-  It returns the loaded result, or an array of more than one loaded results
+  It takes multiple filenames as arguments loads and appends them inside the fixtures container element.
+  It returns an array with references to the newly created first level html elements.
+  When more than one are loaded, it returns an array of the above described format, for each loaded fixture.
 
-  It takes a boolean argument with default value `false`.
+  It takes an optional boolean argument which defaults to `false`.
   If `false`, it empties the `window.fixture.el` container element and clears the `window.fixture.json` array.
+  If `true`, it just appends the requested fixture to the container.
 
   Scenarios:
 
