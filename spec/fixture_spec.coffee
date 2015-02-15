@@ -21,19 +21,19 @@ describe 'Fixture', ->
   it 'is a function', ->
     expect(@Fixture).to.be.a 'function'
 
-  it 'has a static property with the id of the container', ->
-    expect(@Fixture.el_id)
-      .to.be.a('string')
-      .and.to.equal('fixture_container')
-
   describe 'instance', ->
     afterEach ->
-      container = document.getElementById(@Fixture.el_id)
+      container = document.getElementById(@instance.id)
       container.parentElement.removeChild(container)
       @instance = null
       delete @instance
 
-    it 'stores the base folder from where to load templates in @.base', ->
+    it 'stores the id of the fixtures container in @id', ->
+      @instance = new @Fixture()
+      expect(@instance.id)
+        .to.not.be.null
+
+    it 'stores the base folder from where to load templates in @base', ->
       @instance = new @Fixture()
       expect(@instance.base)
         .to.not.be.null
@@ -51,7 +51,7 @@ describe 'Fixture', ->
     it 'receives the base folder from where to load templates as option', ->
       @instance = new @Fixture()
 
-    it 'has an empty array to store json fixtures in @.json', ->
+    it 'has an empty array to store json fixtures in @json', ->
       @instance = new @Fixture()
       expect(@instance.json)
         .to.be.an('array')
@@ -59,12 +59,12 @@ describe 'Fixture', ->
 
     it 'has created the fixtures container element', ->
       @instance = new @Fixture()
-      container = document.getElementById @Fixture.el_id
+      container = document.getElementById @instance.id
       expect(container).to.not.be.null
 
-    it 'has a reference to the fixtures container element in @.el', ->
+    it 'has a reference to the fixtures container element in @el', ->
       @instance = new @Fixture()
-      container = document.getElementById @Fixture.el_id
+      container = document.getElementById @instance.id
       expect(@instance.el).to.equal(container)
 
   describe 'API', ->
@@ -73,7 +73,7 @@ describe 'Fixture', ->
       @fixture_cont = @instance.el
 
     afterEach ->
-      container = document.getElementById(@Fixture.el_id)
+      container = document.getElementById(@instance.id)
       container.parentElement.removeChild(container)
       @instance = null
       delete @instance
@@ -259,7 +259,7 @@ describe 'Fixture', ->
       afterEach ->
         cleanup_karma_html2js_templates()
 
-      it 'resets @.json to an empty array', ->
+      it 'resets @json to an empty array', ->
         expect(@instance.json)
           .to.be.an('array')
           .and.to.be.empty
