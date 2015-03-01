@@ -208,7 +208,7 @@ API
   expect(result[0].innerHTML).to.equal('<h1>test</h1>')
   ```
 
-* `fixture.clear()`
+* `fixture.cleanup()`
 
   It empties the `window.fixture.el` container element and clears the `window.fixture.json` array.
 
