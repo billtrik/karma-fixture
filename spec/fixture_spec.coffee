@@ -126,6 +126,10 @@ describe 'Fixture', ->
           .to.equal(@fixture_cont.children.length)
           .to.equal(2)
 
+      it 'throws when template does not exist', ->
+        fn = => @instance.load('notExistingFixture')
+        expect(fn).to.throw(ReferenceError, 'Fixture not found')
+
       context 'when template contains <script> tags', ->
         beforeEach ->
           @instance.load 'html3'
