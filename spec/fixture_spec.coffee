@@ -128,7 +128,8 @@ describe 'Fixture', ->
 
       it 'throws when template does not exist', ->
         fn = => @instance.load('notExistingFixture')
-        expect(fn).to.throw(ReferenceError, 'Fixture not found')
+        fixture_path = "#{@instance.base}/notExistingFixture"
+        expect(fn).to.throw(ReferenceError, "Cannot find fixture '#{fixture_path}'")
 
       context 'when template contains <script> tags', ->
         beforeEach ->

@@ -19,8 +19,9 @@ class Fixture
     # return created fixtures in an array
     results = []
     for filename in filenames
-      string = __html__?["#{@base}/#{filename}"]
-      @_throwNoFixture() unless string?
+      fixture_path = "#{@base}/#{filename}"
+      string = __html__?[fixture_path]
+      @_throwNoFixture(fixture_path) unless string?
 
       if filename.indexOf('.json') isnt -1
         try
@@ -66,8 +67,8 @@ class Fixture
         eval i.innerText if i.nodeName is 'SCRIPT'
     return results
 
-  _throwNoFixture: ()->
-    throw new ReferenceError 'Fixture not found'
+  _throwNoFixture: (fixture_path)->
+    throw new ReferenceError "Cannot find fixture '#{fixture_path}'"
 
 if typeof exports is 'object'
   module.exports = Fixture
