@@ -1,5 +1,23 @@
 # Change Log
 
+## [v0.2.3](https://github.com/billtrik/karma-fixture/tree/v0.2.3) (2015-03-07)
+
+[Full Changelog](https://github.com/billtrik/karma-fixture/compare/v0.2.2...v0.2.3)
+
+**Closed issues:**
+
+- Modify base path? [\#6](https://github.com/billtrik/karma-fixture/issues/6)
+
+- Can't find variable: Fixture [\#1](https://github.com/billtrik/karma-fixture/issues/1)
+
+**Implemented enhancements:**
+
+- Add setter method for base
+
+- Ignore base when searching for fixture, if fixture starts with '/'
+
+- Add fixture's name to the not found error thrown
+
 ## [v0.2.2](https://github.com/billtrik/karma-fixture/tree/v0.2.2) (2015-03-01)
 
 [Full Changelog](https://github.com/billtrik/karma-fixture/compare/v0.2.1-1...v0.2.2)
