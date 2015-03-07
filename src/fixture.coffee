@@ -57,6 +57,8 @@ class Fixture
     @json = []
     @el.innerHTML = ''
 
+  setBase: (@base)->
+
   _appendFixture: (html_string) ->
     temp_div = document.createElement 'div'
     temp_div.innerHTML = html_string

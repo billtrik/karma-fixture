@@ -278,3 +278,25 @@ describe 'Fixture', ->
       it 'empties fixture container', ->
         expect(@fixture_cont.innerHTML).to.equal ''
 
+    describe 'setBase', ->
+      beforeEach ->
+        @lastBase = @instance.base
+        @testBase = 'test_base'
+        @instance.setBase(@testBase)
+
+      afterEach ->
+        @instance.base = @lastBase
+        cleanup_karma_html2js_templates()
+
+      it 'sets passed param as basepath for fixtures', ->
+        expect(@instance.base).to.equal(@testBase)
+
+      it 'searches later loaded fixtures under this basepath', ->
+        load_template_as_karma_html2js 'html1', html_template1
+        fn = => @instance.load('html1')
+        expect(fn).to.throw(ReferenceError, "Cannot find fixture '#{@testBase}/html1'")
+
+        load_template_as_karma_html2js 'html2', html_template2, @testBase
+        @instance.load('html2')
+        expect(@fixture_cont.children.length).to.equal 2
+
