@@ -24,9 +24,9 @@ module.exports = function(config){
     // ...
 ```
 
-You also have to register any/all fixtures in your Karma configuration:
-
-(defaults to `spec/fixtures`)
+You also have to register any/all fixtures inside your Karma configuration file.
+If all your fixtures exist under a `fixtures/base/path/` folder, then you should include
+all files of interest under this base path.
 
 
 ```javascript
@@ -34,7 +34,7 @@ module.exports = function(config){
   config.set({
     files: [
       {
-        pattern: 'spec/fixtures/**/*',
+        pattern: 'fixtures/base/path/**/*',
       },
       // ...
     ],
@@ -92,7 +92,7 @@ Usage
 
 Lets say you have the following fixture files:
 
-- `spec/fixtures/test1.html`
+- `fixtures/base/path/test1.html`
 
     ```html
     <p>p</p>
@@ -101,7 +101,7 @@ Lets say you have the following fixture files:
     </a>
     ```
 
-- `spec/fixtures/json/test1.json`
+- `fixtures/base/path/json/test1.json`
     ```javascript
     "{"test":true}"
     ```
@@ -111,8 +111,13 @@ You can use `fixture` inside your tests to handle the fixtures:
 
 ```javascript
 describe('some test that needs a fixture', function(){
+  // If base path is different from the default `spec/fixtures`
+  before(function(){
+    fixture.setBase('fixtures/base/path')
+  });
+
   beforeEach(function(){
-    this.result = fixture.load('html_fixture', 'json_fixture');
+    this.result = fixture.load('test1.html', 'test1.json');
   });
 
   afterEach(function(){
@@ -141,13 +146,21 @@ API
 
 * `fixture.load(files..., append = false)`
 
-  It takes multiple filenames as arguments loads and appends them inside the fixtures container element.
+  It takes multiple filenames as arguments. All filenames are loaded from within the base path.
+
+  It loads and appends them inside the fixtures container element.
   It returns an array with references to the newly created first level html elements.
   When more than one are loaded, it returns an array of the above described format, for each loaded fixture.
 
   It takes an optional boolean argument which defaults to `false`.
   If `false`, it empties the `window.fixture.el` container element and clears the `window.fixture.json` array.
   If `true`, it just appends the requested fixture to the container.
+
+  If your fixtures exist in a base path other than the default `spec/fixtures`,
+  you should call `fixture.setBase('fixtures/base/path')` in your specs, or load them
+  with their full, base included, filenames prefixed with a '/'.
+
+  For example: `fixture.load('/my/other/base/path/fixture1.html')`
 
   Scenarios:
 
@@ -212,6 +225,10 @@ API
 
   It empties the `window.fixture.el` container element and clears the `window.fixture.json` array.
 
+* `fixture.setBase(fixtureBasePath)`
+
+  It set the base path under which all forthcoming fixtures will be loaded.
+  This can be bypassed by loading a fixture with its full, base included, filename prefixed with a '/'.
 
 
 License
