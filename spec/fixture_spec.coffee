@@ -131,6 +131,12 @@ describe 'Fixture', ->
         fixture_path = "#{@instance.base}/notExistingFixture"
         expect(fn).to.throw(ReferenceError, "Cannot find fixture '#{fixture_path}'")
 
+      it 'ignores base if fixture name starts with \'/\'', ->
+        load_template_as_karma_html2js 'html4', '<p>test</p>', 'test_base'
+
+        @instance.load('/test_base/html4')
+        expect(@fixture_cont.innerHTML).to.equal('<p>test</p>')
+
       context 'when template contains <script> tags', ->
         beforeEach ->
           @instance.load 'html3'

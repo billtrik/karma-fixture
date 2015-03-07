@@ -19,7 +19,11 @@ class Fixture
     # return created fixtures in an array
     results = []
     for filename in filenames
-      fixture_path = "#{@base}/#{filename}"
+      if filename[0] is '/'
+        fixture_path = filename.substr(1)
+      else
+        fixture_path = "#{@base}/#{filename}"
+
       string = __html__?[fixture_path]
       @_throwNoFixture(fixture_path) unless string?
 
