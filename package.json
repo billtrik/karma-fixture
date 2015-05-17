@@ -13,7 +13,7 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run",
+    "test": "node ./node_modules/karma/bin/karma start --single-run",
     "prepublish": "./node_modules/.bin/coffee -o lib -c src/*.coffee"
   },
   "repository": {

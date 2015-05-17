@@ -2,6 +2,24 @@ class Fixture
 
   constructor: (@base = 'spec/fixtures', @id = 'fixture_container') ->
     @json = []
+    @scriptTypes = {
+      'application/ecmascript': 1,
+      'application/javascript': 1,
+      'application/x-ecmascript': 1,
+      'application/x-javascript': 1,
+      'text/ecmascript': 1,
+      'text/javascript': 1,
+      'text/javascript1.0': 1,
+      'text/javascript1.1': 1,
+      'text/javascript1.2': 1,
+      'text/javascript1.3': 1,
+      'text/javascript1.4': 1,
+      'text/javascript1.5': 1,
+      'text/jscript': 1,
+      'text/livescript': 1,
+      'text/x-ecmascript': 1,
+      'text/x-javascript': 1
+    }
 
     @el = window[@id] or (=>
       container = document.createElement 'div'
@@ -70,7 +88,7 @@ class Fixture
       else
         @el.appendChild(i)
         results.push i
-        eval i.innerText if i.nodeName is 'SCRIPT'
+        eval (i.innerText || i.textContent) if i.nodeName is 'SCRIPT' and (!i.type or @scriptTypes[i.type])
     return results
 
   _throwNoFixture: (fixture_path)->

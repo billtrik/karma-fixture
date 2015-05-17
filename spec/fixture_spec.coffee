@@ -2,10 +2,14 @@ json_data = {
   test1: 'check'
   test2: 'ok'
 }
+
 json_template = JSON.stringify(json_data)
 html_template1 = '<h1 id="tmpl">test</h1>'
 html_template2 = '<h2 id="tmpl">test</h2><p>multiple</p>'
 html_template3 = '<script>window.test_a_test = true</script>'
+html_template4 = '<script type="text/javascript">window.test_b_test = true</script>'
+html_template5 = '<script type="application/javascript">window.test_c_test = true</script>'
+html_template6 = '<script type="text/x-custom">window.test_d_test = true</script>'
 fixture_base = 'spec/fixtures'
 
 load_template_as_karma_html2js = (name, string, base = fixture_base)->
@@ -83,6 +87,9 @@ describe 'Fixture', ->
         load_template_as_karma_html2js 'html1', html_template1
         load_template_as_karma_html2js 'html2', html_template2
         load_template_as_karma_html2js 'html3', html_template3
+        load_template_as_karma_html2js 'html4', html_template4
+        load_template_as_karma_html2js 'html5', html_template5
+        load_template_as_karma_html2js 'html6', html_template6
         load_template_as_karma_html2js 'json.json', json_template
 
       afterEach ->
@@ -137,7 +144,7 @@ describe 'Fixture', ->
         @instance.load('/test_base/html4')
         expect(@fixture_cont.innerHTML).to.equal('<p>test</p>')
 
-      context 'when template contains <script> tags', ->
+      context 'when template contains <script> tags without type', ->
         beforeEach ->
           @instance.load 'html3'
 
@@ -146,6 +153,36 @@ describe 'Fixture', ->
 
         it 'executes the javascript', ->
           expect(window.test_a_test).to.equal true
+
+      context 'when template contains <script> tags with text/javascript type', ->
+        beforeEach ->
+          @instance.load 'html4'
+
+        it 'places the script tag intact', ->
+          expect(@fixture_cont.innerHTML).to.equal html_template4
+
+        it 'executes the javascript', ->
+          expect(window.test_b_test).to.equal true
+
+      context 'when template contains <script> tags with application/javascript type', ->
+        beforeEach ->
+          @instance.load 'html5'
+
+        it 'places the script tag intact', ->
+          expect(@fixture_cont.innerHTML).to.equal html_template5
+
+        it 'executes the javascript', ->
+          expect(window.test_c_test).to.equal true
+
+      context 'when template contains <script> tags with text/x-custom type', ->
+        beforeEach ->
+          @instance.load 'html6'
+
+        it 'places the script tag intact', ->
+          expect(@fixture_cont.innerHTML).to.equal html_template6
+
+        it 'does not execute the javascript', ->
+          expect(window.test_d_test).to.equal undefined
 
       context 'when multiple templates are requested', ->
         beforeEach ->
