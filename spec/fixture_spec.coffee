@@ -1,9 +1,11 @@
-json_data = {
+json_data =
   test1: 'check'
   test2: 'ok'
-}
 
-json_template = JSON.stringify(json_data)
+json_template = JSON.stringify json_data
+escaped_json_template = JSON.stringify
+  "myLink": "<a href=\"link.url\">Link</a>"
+
 html_template1 = '<h1 id="tmpl">test</h1>'
 html_template2 = '<h2 id="tmpl">test</h2><p>multiple</p>'
 html_template3 = '<script>window.test_a_test = true</script>'
@@ -11,6 +13,10 @@ html_template4 = '<script type="text/javascript">window.test_b_test = true</scri
 html_template5 = '<script type="application/javascript">window.test_c_test = true</script>'
 html_template6 = '<script type="text/x-custom">window.test_d_test = true</script>'
 fixture_base = 'spec/fixtures'
+
+load_template_as_karma_json_fixures = (name, string, base = fixture_base)->
+  window.__json__ ?= {}
+  window.__json__["#{base}/#{name}"] = string
 
 load_template_as_karma_html2js = (name, string, base = fixture_base)->
   window.__html__ ?= {}
@@ -82,7 +88,7 @@ describe 'Fixture', ->
       @instance = null
       delete @instance
 
-    describe 'load', ->
+    describe '#load()', ->
       beforeEach ->
         load_template_as_karma_html2js 'html1', html_template1
         load_template_as_karma_html2js 'html2', html_template2
@@ -90,7 +96,8 @@ describe 'Fixture', ->
         load_template_as_karma_html2js 'html4', html_template4
         load_template_as_karma_html2js 'html5', html_template5
         load_template_as_karma_html2js 'html6', html_template6
-        load_template_as_karma_html2js 'json.json', json_template
+        load_template_as_karma_json_fixures 'json.json', json_template
+        load_template_as_karma_json_fixures 'escaped_json.json', escaped_json_template
 
       afterEach ->
         cleanup_karma_html2js_templates()
@@ -99,7 +106,7 @@ describe 'Fixture', ->
         @instance.load 'html1'
         expect(@fixture_cont.children.length).to.equal 1
 
-      it 'accepts an append boolean as second param', ->
+      it 'accepts an "append" boolean as second param', ->
         @instance.load 'html1', true
         expect(@fixture_cont.children.length).to.equal 1
 
@@ -203,17 +210,31 @@ describe 'Fixture', ->
           result = @instance.load 'json.json'
           expect(result).to.include json_data
 
+        it 'retrieves json templates from window.__json__', ->
+          result = @instance.load 'json.json'
+          expect(result).to.eql(JSON.parse(window.__json__["#{fixture_base}/json.json"]))
+
         it 'loads the json template into fixture.json', ->
           @instance.load 'json.json'
           expect(@instance.json[0]).to.include json_data
 
-        it 'returns multipe json objects', ->
+        it 'returns multiple json objects', ->
           result = @instance.load 'json.json', 'json.json'
           expect(result.length).to.equal 2
 
         it 'loads multiple json templates into fixture.json', ->
           result = @instance.load 'json.json', 'json.json'
           expect(@instance.json.length).to.equal 2
+
+      context 'when it loads json template with escaped characters', ->
+        it 'does not throw', ->
+          func = -> @instance.load 'escaped_json.json'
+          expect(func).to.not.throw
+
+        it 'creates properly unescaped data', ->
+          result = @instance.load 'escaped_json.json'
+          expect(result.myLink).to.eql('<a href=\"link.url\">Link</a>')
+          expect(result.myLink.indexOf('\\')).to.equal(-1);
 
       context 'json and html templates', ->
         beforeEach ->
@@ -225,7 +246,7 @@ describe 'Fixture', ->
         it 'pushes the json obj to fixture.json', ->
           expect(@instance.json[0]).to.include json_data
 
-    describe 'set', ->
+    describe '#set()', ->
       it 'accepts a string as first param and creates a dom element', ->
         @instance.set html_template1
         expect(@fixture_cont.innerHTML).to.equal html_template1
@@ -295,7 +316,7 @@ describe 'Fixture', ->
           expect(@result[1][1])
             .to.equal @fixture_cont.children[2]
 
-    describe 'cleanup', ->
+    describe '#cleanup()', ->
       beforeEach ->
         load_template_as_karma_html2js 'html1', html_template1
         load_template_as_karma_html2js 'html2', html_template2
@@ -315,7 +336,7 @@ describe 'Fixture', ->
       it 'empties fixture container', ->
         expect(@fixture_cont.innerHTML).to.equal ''
 
-    describe 'setBase', ->
+    describe '#setBase()', ->
       beforeEach ->
         @lastBase = @instance.base
         @testBase = 'test_base'

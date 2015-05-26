@@ -28,6 +28,9 @@ class Fixture
     )()
 
   load: (filenames..., append = false) ->
+    __html__ = window.__html__ || {}
+    __json__ = window.__json__ || {}
+
     unless typeof append is 'boolean'
       filenames.push append
       append = false
@@ -42,17 +45,26 @@ class Fixture
       else
         fixture_path = "#{@base}/#{filename}"
 
-      string = __html__?[fixture_path]
-      @_throwNoFixture(fixture_path) unless string?
-
+      # JSON
       if filename.indexOf('.json') isnt -1
+        json = __json__[filename.replace('.json', '')] or
+               __json__[filename] or
+               __json__[fixture_path] or
+               __json__["#{@base}/#{filename.replace('.json', '')}"]
+
+        @_throwNoFixture(fixture_path) unless json?
+
+        # Is this needed?
         try
-          json = JSON.parse string
-          @json.push json
-          results.push json
-        catch err
+          json = JSON.parse json
+        catch ignore
+
+        @json.push json
+        results.push json
+      else if __html__[fixture_path]
+        results.push @_appendFixture __html__[fixture_path]
       else
-        results.push @_appendFixture string
+        @_throwNoFixture(fixture_path) unless string?
 
     results = results[0] if results.length is 1
     return results

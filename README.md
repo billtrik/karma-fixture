@@ -19,8 +19,8 @@ Add `fixture` to the `frameworks` array in your Karma configuration:
 ```javascript
 module.exports = function(config){
   config.set({
+    // ...
     frameworks: ['mocha', 'fixture'],
-
     // ...
 ```
 
@@ -32,37 +32,50 @@ all files of interest under this base path.
 ```javascript
 module.exports = function(config){
   config.set({
+    // ...
     files: [
       {
         pattern: 'fixtures/base/path/**/*',
       },
       // ...
     ],
-
     // ...
 ],
 ```
 
-Finally you have to add the html2js karma preprocessor:
+Finally you have to add the `html2js` and `karma-json-fixtures-preprocessor` karma preprocessors:
 
 ```sh
 $ npm install karma-html2js-preprocessor --save-dev
+$ npm install karma-json-fixtures-preprocessor --save-dev
 ```
 
-and then configure Karma to load all html and JSON fixture files:
+, configure Karma to load all html and JSON fixture files via those preprocessors:
 
 ```javascript
 module.exports = function(config){
   config.set({
+    // ...
     preprocessors: {
       '**/*.html'   : ['html2js'],
-      '**/*.json'   : ['html2js']
+      '**/*.json'   : ['json_fixtures']
     },
-
     // ...
 ```
 
-*(optional)* If the plugin won't get loaded by karma, you might have to declare it inside the `plugins` array in your Karma configuration
+and then setup the `karma-json-fixtures-preprocessor` plugin:
+
+```javascript
+module.exports = function(config){
+  config.set({
+    // ...
+    jsonFixturesPreprocessor: {
+      variableName: '__json__'
+    },
+    // ...
+```
+
+*(optional)* If the plugins won't get loaded by karma, you might have to declare them inside the `plugins` array in your Karma configuration
 *(and maybe load `karma-html2js-preprocessor` as well)*:
 
 ```javascript
@@ -72,19 +85,20 @@ module.exports = function(config){
     plugins: [
       'karma-fixture'
       'karma-html2js-preprocessor'
+      'karma-json-fixtures-preprocessor'
       // ...
     ],
-
     // ...
 ```
 
 Implementation details
 -----
 
-All fixture files are pre-loaded as strings and placed inside the Karma-created `window.__html__` array.
+All html fixture files are pre-loaded as strings and placed inside the Karma-created `window.__html__` object and all json fixtures are loaded inside 
+`window.__json__`.
 
 The fixture plugin is exposed in the `window.fixture` object on every test run.
-It loads fixture files from that array and appends the created html inside the `window.fixture.el` element that gets created on start-up.
+It loads fixture files from these objects and appends the created html inside the `window.fixture.el` element that gets created on start-up. It appends loaded JSONs inside the `fixture.json` array.
 
 
 Usage
