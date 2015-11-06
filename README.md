@@ -83,9 +83,9 @@ module.exports = function(config){
   config.set({
     // ...
     plugins: [
-      'karma-fixture'
-      'karma-html2js-preprocessor'
-      'karma-json-fixtures-preprocessor'
+      'karma-fixture',
+      'karma-html2js-preprocessor',
+      'karma-json-fixtures-preprocessor',
       // ...
     ],
     // ...
