@@ -54,9 +54,8 @@ class Fixture
 
         @_throwNoFixture(fixture_path) unless json?
 
-        # Is this needed?
         try
-          json = JSON.parse json
+          json = JSON.parse JSON.stringify(json)
         catch ignore
 
         @json.push json

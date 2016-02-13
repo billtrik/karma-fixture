@@ -214,6 +214,10 @@ describe 'Fixture', ->
           result = @instance.load 'json.json'
           expect(result).to.eql(window.__json__["#{fixture_base}/json.json"])
 
+        it 'returns a copy of the json data', ->
+          result = @instance.load 'json.json'
+          expect(result).to.not.equal(window.__json__["#{fixture_base}/json.json"])
+
         it 'loads the json template into fixture.json', ->
           @instance.load 'json.json'
           expect(@instance.json[0]).to.include json_data
@@ -225,6 +229,14 @@ describe 'Fixture', ->
         it 'loads multiple json templates into fixture.json', ->
           result = @instance.load 'json.json', 'json.json'
           expect(@instance.json.length).to.equal 2
+
+        it 'does not pesists mutations on json data between loads', ->
+          result = @instance.load 'json.json'
+          expect(result.test1).to.equal 'check'
+          result.test1 = 'checkcheck'
+
+          result = @instance.load 'json.json'
+          expect(result.test1).to.equal 'check'
 
       context 'when it loads json template with escaped characters', ->
         it 'does not throw', ->
