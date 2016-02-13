@@ -16,7 +16,7 @@ fixture_base = 'spec/fixtures'
 
 load_template_as_karma_json_fixures = (name, string, base = fixture_base)->
   window.__json__ ?= {}
-  window.__json__["#{base}/#{name}"] = string
+  window.__json__["#{base}/#{name}"] = JSON.parse(string)
 
 load_template_as_karma_html2js = (name, string, base = fixture_base)->
   window.__html__ ?= {}
@@ -212,7 +212,7 @@ describe 'Fixture', ->
 
         it 'retrieves json templates from window.__json__', ->
           result = @instance.load 'json.json'
-          expect(result).to.eql(JSON.parse(window.__json__["#{fixture_base}/json.json"]))
+          expect(result).to.eql(window.__json__["#{fixture_base}/json.json"])
 
         it 'loads the json template into fixture.json', ->
           @instance.load 'json.json'
