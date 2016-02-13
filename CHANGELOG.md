@@ -1,5 +1,29 @@
 # Change Log
 
+## [v0.2.6](https://github.com/billtrik/karma-fixture/tree/v0.2.6) (2016-02-13)
+
+**Closed issues:**
+
+- Modifying loaded fixture data permanently modifies fixture data [\#12](https://github.com/billtrik/karma-fixture/issues/12)
+
+[Full Changelog](https://github.com/billtrik/karma-fixture/compare/v0.2.5...v0.2.6)
+
+## [v0.2.5](https://github.com/billtrik/karma-fixture/tree/v0.2.5) (2015-05-26)
+
+**Closed issues:**
+
+- Does not load json objects with escaped characters [\#7](https://github.com/billtrik/karma-fixture/issues/7)
+
+[Full Changelog](https://github.com/billtrik/karma-fixture/compare/v0.2.4...v0.2.5)
+
+## [v0.2.4](https://github.com/billtrik/karma-fixture/tree/v0.2.4) (2015-05-18)
+
+**Closed issues:**
+
+- Don't eval() text in `<script>` if type isn't "text/javascript" or "application/javascript" [\#8](https://github.com/billtrik/karma-fixture/issues/8)
+
+[Full Changelog](https://github.com/billtrik/karma-fixture/compare/v0.2.3...v0.2.4)
+
 ## [v0.2.3](https://github.com/billtrik/karma-fixture/tree/v0.2.3) (2015-03-07)
 
 [Full Changelog](https://github.com/billtrik/karma-fixture/compare/v0.2.2...v0.2.3)
