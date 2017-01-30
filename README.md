@@ -75,8 +75,15 @@ module.exports = function(config){
     // ...
 ```
 
-*(optional)* If the plugins won't get loaded by karma, you might have to declare them inside the `plugins` array in your Karma configuration
-*(and maybe load `karma-html2js-preprocessor` as well)*:
+## Setup issues
+
+1. `Uncaught SyntaxError: Unexpected token :` error when loading JSON files
+
+    This is probably due to improper config values for the 'karma-json-fixtures-preprocessor'.
+    For more see: https://github.com/billtrik/karma-fixture/issues/15#issuecomment-274051710
+
+2. `Warning: No provider for "framework:fixture"!` 
+   There is probably a `plugins` entry on your config. If that is the case you have to explicitly declare every single plugin that you plan to use in that array:
 
 ```javascript
 module.exports = function(config){
